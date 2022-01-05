@@ -1,10 +1,12 @@
 <template>
-  <section>FILTER</section>
+  <section>
+    <mentor-filter @change-filter="setFilters"></mentor-filter>
+  </section>
   <section>
     <base-card>
       <div class="controls">
-        <base-button mode='outline' >Refresh list</base-button>
-        <base-button link to="/register">Register as Mentor</base-button >
+        <base-button mode="outline">Refresh list</base-button>
+        <base-button link to="/register">Register as Mentor</base-button>
       </div>
       <ul v-if="hasMentors">
         <mentor-item
@@ -24,14 +26,44 @@
 
 <script>
 import MentorItem from "../../mentors/MentorItem.vue";
+import MentorFilter from "../../mentors/MentorFilter.vue";
 export default {
-  components: { MentorItem },
+  components: { MentorItem, MentorFilter },
+  data() {
+    return {
+      activeFilters: {
+        frontend: true,
+        backend: true,
+        career: true,
+      },
+    };
+  },
   computed: {
     filteredMentors() {
-      return this.$store.getters["mentors/mentors"];
+      // loops through all the stored mentors and filters them according to the selected chekboxes in the filter.
+      // It checks that the key is True in activeFilters and that the mentor has that area, if not it returns false and 
+      // it is not included in the array
+      const mentors = this.$store.getters["mentors/mentors"];
+      return mentors.filter((mentor) => {
+        if (this.activeFilters.frontend && mentor.areas.includes("frontend")) {
+          return true;
+        }
+        if (this.activeFilters.backend && mentor.areas.includes("backend")) {
+          return true;
+        }
+        if (this.activeFilters.career && mentor.areas.includes("career")) {
+          return true;
+        }
+        return false;
+      });
     },
     hasMentors() {
       return this.$store.getters["mentors/hasMentors"];
+    },
+  },
+  methods: {
+    setFilters(updatedFilters) {
+      this.activeFilters = updatedFilters;
     },
   },
 };
