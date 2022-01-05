@@ -12,7 +12,7 @@ const router = createRouter({
     routes: [
         {path: '/', redirect: '/mentors'},
         {path: '/mentors', component: MentorsList},
-        {path: '/mentors/:id', component: MentorDetails, children: [
+        {path: '/mentors/:id', props:true, component: MentorDetails, children: [
            {path: 'contact', component: ContactMentor}, // This will load the contact page for a specific mentor
         ]},
         {path: '/register', component: MentorRegistration},
