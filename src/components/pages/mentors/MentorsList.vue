@@ -6,7 +6,7 @@
     <base-card>
       <div class="controls">
         <base-button mode="outline">Refresh list</base-button>
-        <base-button link to="/register">Register as Mentor</base-button>
+        <base-button link to="/register" v-if="!isMentor">Register as Mentor</base-button>
       </div>
       <ul v-if="hasMentors">
         <mentor-item
@@ -41,7 +41,7 @@ export default {
   computed: {
     filteredMentors() {
       // loops through all the stored mentors and filters them according to the selected chekboxes in the filter.
-      // It checks that the key is True in activeFilters and that the mentor has that area, if not it returns false and 
+      // It checks that the key is True in activeFilters and that the mentor has that area, if not it returns false and
       // it is not included in the array
       const mentors = this.$store.getters["mentors/mentors"];
       return mentors.filter((mentor) => {
@@ -59,6 +59,9 @@ export default {
     },
     hasMentors() {
       return this.$store.getters["mentors/hasMentors"];
+    },
+    isMentor() {
+      return this.$store.getters["mentors/isMentor"];
     },
   },
   methods: {
