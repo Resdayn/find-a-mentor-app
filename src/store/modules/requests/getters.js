@@ -1,9 +1,11 @@
 export default {
-    requests(state) {
-        return state.requests;
+    requests(state, _, _2, rootGetters) {
+        // access to userId in the root store through rootGetters 
+        const mentorId = rootGetters.userId;
+        return state.requests.filter( request => request.mentorId === mentorId);
     },
-    hasRequests(state) {
+    hasRequests(_, getters) {
         //returns boolean according to the  expresion below
-        return state.requests && state.requests.length > 0;
+        return getters.requests && getters.requests.length > 0;
     }
 }
