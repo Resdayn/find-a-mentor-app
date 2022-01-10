@@ -35,7 +35,7 @@ export default {
 
     if (!payload.forceRefresh && !context.getters.shouldUpdateMentors) {
       // end execution and not update the list of mentors.
-      return
+      return;
     }
 
     // If so, proceeds to send a get request to FireBase
@@ -43,7 +43,10 @@ export default {
     const responseData = await response.json();
     if (!response.ok) {
       // The component that dispatched this action will receive the error object.
-      const error = new Error(responseData.message || "Failed to retrieve data. Please try again later.");
+      const error = new Error(
+        responseData.message ||
+          "Failed to retrieve data. Please try again later."
+      );
       throw error;
     }
 
@@ -60,8 +63,8 @@ export default {
         hourlyRate: responseData[key].hourlyRate,
       };
       mentors.push(mentor);
-      context.commit('setMentors', mentors);
-      context.commit('setFetchTimeStamp');
+      context.commit("setMentors", mentors);
+      context.commit("setFetchTimeStamp");
     }
   },
 };
