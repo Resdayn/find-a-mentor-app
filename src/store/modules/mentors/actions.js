@@ -21,7 +21,7 @@ export default {
     );
 
     if (!response.ok) {
-      // throw error
+      // TODO: HANDLE ERROR
     }
 
     context.commit("registerMentor", {
@@ -35,7 +35,9 @@ export default {
     const response = await fetch(`${fireBaseToken.token}/mentors.json`);
     const responseData = await response.json();
     if (!response.ok) {
-      // Throw ERROR
+      // The component that dispatched this action will receive the error object.
+      const error = new Error(responseData.message || "Failed to retrieve data. Please try again later.");
+      throw error;
     }
 
     // Now we transform the big object return from firebase into an array of mentors
