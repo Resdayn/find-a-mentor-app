@@ -8,7 +8,7 @@
   <section>
     <base-card>
       <div class="controls">
-        <base-button @click="loadMentors" mode="outline">Refresh list</base-button>
+        <base-button @click="loadMentors(true)" mode="outline">Refresh list</base-button>
         <base-button link to="/register" v-if="!isMentor && !isLoading">Register as Mentor</base-button>
       </div>
       <div v-if="isLoading">
@@ -76,11 +76,11 @@ export default {
     setFilters(updatedFilters) {
       this.activeFilters = updatedFilters;
     },
-    async loadMentors() {
+    async loadMentors(refresh = false) {
       // Since Vuex dispatch returns a promise we can async this function.
       this.isLoading = true;
       try {
-        await this.$store.dispatch('mentors/loadMentors');
+        await this.$store.dispatch('mentors/loadMentors', {forceRefresh: refresh });
       }
       catch (error){
         this.error = error.message || "Something went wrong.";
