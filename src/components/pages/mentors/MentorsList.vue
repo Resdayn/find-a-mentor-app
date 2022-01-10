@@ -1,4 +1,7 @@
 <template>
+<base-dialog :show="!!error" title="An error occurred :(" @close="handleError">
+  <p>{{error}}</p>
+</base-dialog>
   <section>
     <mentor-filter @change-filter="setFilters"></mentor-filter>
   </section>
@@ -39,7 +42,8 @@ export default {
         backend: true,
         career: true,
       },
-      isLoading: false
+      isLoading: false,
+      error: null // To show whether a fetch error happened.
     };
   },
   computed: {
@@ -75,8 +79,16 @@ export default {
     async loadMentors() {
       // Since Vuex dispatch returns a promise we can async this function.
       this.isLoading = true;
-      await this.$store.dispatch('mentors/loadMentors');
+      try {
+        await this.$store.dispatch('mentors/loadMentors');
+      }
+      catch (error){
+        this.error = error.message || "Something went wrong.";
+      }
       this.isLoading = false;
+    },
+    handleError() {
+      this.error = null;
     }
   },
   created() {
