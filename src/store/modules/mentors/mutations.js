@@ -6,5 +6,8 @@ export default {
     setMentors(state, payload) {
         // puts the mentors from FireBase in the local Vuex store after fetched with the action
         state.mentors = payload;
+    },
+    setFetchTimeStamp(state) {
+        state.lastFetch = new Date().getTime();
     }
 };
