@@ -30,8 +30,15 @@ export default {
     });
   },
 
-  async loadMentors(context) {
-    //sends a get request to FireBase
+  async loadMentors(context, payload) {
+    // Check first if we can fetch
+
+    if (!payload.forceRefresh && !context.getters.shouldUpdateMentors) {
+      // end execution and not update the list of mentors.
+      return
+    }
+
+    // If so, proceeds to send a get request to FireBase
     const response = await fetch(`${fireBaseToken.token}/mentors.json`);
     const responseData = await response.json();
     if (!response.ok) {
@@ -54,6 +61,7 @@ export default {
       };
       mentors.push(mentor);
       context.commit('setMentors', mentors);
+      context.commit('setFetchTimeStamp');
     }
   },
 };

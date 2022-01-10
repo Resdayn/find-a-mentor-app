@@ -11,6 +11,17 @@ export default {
         const mentors = getters.mentors;
         const userId = rootGetters.userId;
         return mentors.some(mentor => mentor.id === userId); // true if at least one is true.
-
+    },
+    shouldUpdateMentors(state) {
+        // Checks if more than one minute happened before the last mentor fetch.
+        // Because it is not necessary to update the mentor list in realtime. They don't change that much.
+        const lastFetch = state.lastFetch;
+        if (!lastFetch) {
+            // return true if no timestamp was sent (on first load)
+            return true
+        }
+        
+        const currentTimeStamp = new Date().getTime();
+        return (currentTimeStamp - lastFetch) / 1000 > 60;
     }
 };
