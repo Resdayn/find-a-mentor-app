@@ -6,9 +6,12 @@
     <base-card>
       <div class="controls">
         <base-button @click="loadMentors" mode="outline">Refresh list</base-button>
-        <base-button link to="/register" v-if="!isMentor">Register as Mentor</base-button>
+        <base-button link to="/register" v-if="!isMentor && !isLoading">Register as Mentor</base-button>
       </div>
-      <ul v-if="hasMentors">
+      <div v-if="isLoading">
+        <base-spinner></base-spinner>
+      </div>
+      <ul v-else-if="hasMentors">
         <mentor-item
           v-for="mentor in filteredMentors"
           :key="mentor.id"
@@ -36,6 +39,7 @@ export default {
         backend: true,
         career: true,
       },
+      isLoading: false
     };
   },
   computed: {
@@ -58,7 +62,7 @@ export default {
       });
     },
     hasMentors() {
-      return this.$store.getters["mentors/hasMentors"];
+      return !this.isLoading && this.$store.getters["mentors/hasMentors"];
     },
     isMentor() {
       return this.$store.getters["mentors/isMentor"];
@@ -68,8 +72,11 @@ export default {
     setFilters(updatedFilters) {
       this.activeFilters = updatedFilters;
     },
-    loadMentors() {
-      this.$store.dispatch('mentors/loadMentors');
+    async loadMentors() {
+      // Since Vuex dispatch returns a promise we can async this function.
+      this.isLoading = true;
+      await this.$store.dispatch('mentors/loadMentors');
+      this.isLoading = false;
     }
   },
   created() {
