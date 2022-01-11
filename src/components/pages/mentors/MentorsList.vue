@@ -1,33 +1,43 @@
 <template>
-<base-dialog :show="!!error" title="An error occurred :(" @close="handleError">
-  <p>{{error}}</p>
-</base-dialog>
-  <section>
-    <mentor-filter @change-filter="setFilters"></mentor-filter>
-  </section>
-  <section>
-    <base-card>
-      <div class="controls">
-        <base-button @click="loadMentors(true)" mode="outline">Refresh list</base-button>
-        <base-button link to="/register" v-if="!isMentor && !isLoading">Register as Mentor</base-button>
-      </div>
-      <div v-if="isLoading">
-        <base-spinner></base-spinner>
-      </div>
-      <ul v-else-if="hasMentors">
-        <mentor-item
-          v-for="mentor in filteredMentors"
-          :key="mentor.id"
-          :id="mentor.id"
-          :firstName="mentor.firstName"
-          :lastName="mentor.lastName"
-          :rate="mentor.hourlyRate"
-          :areas="mentor.areas"
-        ></mentor-item>
-      </ul>
-      <h3 v-else>There are no available mentors yet</h3>
-    </base-card>
-  </section>
+  <div>
+    <base-dialog
+      :show="!!error"
+      title="An error occurred :("
+      @close="handleError"
+    >
+      <p>{{ error }}</p>
+    </base-dialog>
+    <section>
+      <mentor-filter @change-filter="setFilters"></mentor-filter>
+    </section>
+    <section>
+      <base-card>
+        <div class="controls">
+          <base-button @click="loadMentors(true)" mode="outline"
+            >Refresh list</base-button
+          >
+          <base-button link to="/register" v-if="!isMentor && !isLoading"
+            >Register as Mentor</base-button
+          >
+        </div>
+        <div v-if="isLoading">
+          <base-spinner></base-spinner>
+        </div>
+        <ul v-else-if="hasMentors">
+          <mentor-item
+            v-for="mentor in filteredMentors"
+            :key="mentor.id"
+            :id="mentor.id"
+            :firstName="mentor.firstName"
+            :lastName="mentor.lastName"
+            :rate="mentor.hourlyRate"
+            :areas="mentor.areas"
+          ></mentor-item>
+        </ul>
+        <h3 v-else>There are no available mentors yet</h3>
+      </base-card>
+    </section>
+  </div>
 </template>
 
 <script>
@@ -43,7 +53,7 @@ export default {
         career: true,
       },
       isLoading: false,
-      error: null // To show whether a fetch error happened.
+      error: null, // To show whether a fetch error happened.
     };
   },
   computed: {
@@ -80,20 +90,21 @@ export default {
       // Since Vuex dispatch returns a promise we can async this function.
       this.isLoading = true;
       try {
-        await this.$store.dispatch('mentors/loadMentors', {forceRefresh: refresh });
-      }
-      catch (error){
+        await this.$store.dispatch("mentors/loadMentors", {
+          forceRefresh: refresh,
+        });
+      } catch (error) {
         this.error = error.message || "Something went wrong.";
       }
       this.isLoading = false;
     },
     handleError() {
       this.error = null;
-    }
+    },
   },
   created() {
     this.loadMentors();
-  }
+  },
 };
 </script>
 
