@@ -5,6 +5,7 @@ import MentorRegistration from "./components/pages/mentors/MentorRegistration.vu
 import MentorsList from "./components/pages/mentors/MentorsList.vue";
 import ContactMentor from "./components/pages/requests/ContactMentor.vue";
 import RequestsReceived from "./components/pages/requests/RequestsReceived.vue";
+import UserAuth from "./components/pages/auth/UserAuth.vue"
 import NotFound from "./components/pages/NotFound.vue";
 
 const router = createRouter({
@@ -22,6 +23,7 @@ const router = createRouter({
     },
     { path: "/register", component: MentorRegistration },
     { path: "/requests", component: RequestsReceived },
+    { path: "/auth", component: UserAuth },
     { path: "/:notFound(.*)", component: NotFound },
   ],
 });
