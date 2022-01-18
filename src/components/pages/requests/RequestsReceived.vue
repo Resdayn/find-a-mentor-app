@@ -4,7 +4,7 @@
       :show="!!error"
       title="An error ocurred :("
       @close="handleError"
-    ></base-dialog>
+    >{{error}}</base-dialog>
     <section>
       <base-card>
         <header>
