@@ -84,6 +84,9 @@ export default {
         } else {
           await this.$store.dispatch("signup", actionPayload);
         }
+        // Redirect the router to the appropriate page according to the query parameter or to the default page
+        const redirectUrl = '/' + (this.$route.query.redirect || 'mentors'); // same name has provided in the MentorList component button
+        this.$router.replace(redirectUrl);
       } catch (error) {
         this.error =
           error.message || "Failed to authenticate, please try later";
