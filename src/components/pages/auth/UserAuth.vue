@@ -1,7 +1,7 @@
 <template>
   <div>
     <base-dialog :show="!!error" title="An error ocurred" @close="handleError">
-      <p>{{error}}</p>
+      <p>{{ error }}</p>
     </base-dialog>
     <base-dialog :show="isLoading" title="Authenticating..." fixed>
       <base-spinner></base-spinner>
@@ -33,7 +33,7 @@
 export default {
   data() {
     return {
-     email: "",
+      email: "",
       password: "",
       formIsValid: true,
       mode: "login", // or 'signup'
@@ -56,9 +56,6 @@ export default {
         return "Login instead";
       }
     },
-    handleError() {
-      this.error = null;
-    }
   },
   methods: {
     async submitForm() {
@@ -77,14 +74,15 @@ export default {
       this.isLoading = true;
 
       // Send HTTP request
+      const actionPayload = {
+        email: this.email,
+        password: this.password,
+      };
       try {
         if (this.mode === "login") {
-          // ...
+          await this.$store.dispatch("login", actionPayload);
         } else {
-          await this.$store.dispatch("signup", {
-            email: this.email,
-            password: this.password,
-          });
+          await this.$store.dispatch("signup", actionPayload);
         }
       } catch (error) {
         this.error =
@@ -99,6 +97,9 @@ export default {
       } else {
         this.mode = "login";
       }
+    },
+    handleError() {
+      this.error = null;
     },
   },
 };
