@@ -14,9 +14,10 @@
       <base-card>
         <div class="controls">
           <base-button @click="loadMentors(true)" mode="outline"
-            >Refresh list</base-button
+            >Refresh</base-button
           >
-          <base-button link to="/register" v-if="!isMentor && !isLoading"
+          <base-button link to="/auth" v-if="!isLoggedIn">Log In</base-button>
+          <base-button link to="/register" v-if="isLoggedIn && !isMentor && !isLoading"
             >Register as Mentor</base-button
           >
         </div>
@@ -43,8 +44,9 @@
 <script>
 import MentorItem from "../../mentors/MentorItem.vue";
 import MentorFilter from "../../mentors/MentorFilter.vue";
+import BaseButton from '../../ui/BaseButton.vue';
 export default {
-  components: { MentorItem, MentorFilter },
+  components: { MentorItem, MentorFilter, BaseButton },
   data() {
     return {
       activeFilters: {
@@ -81,6 +83,9 @@ export default {
     isMentor() {
       return this.$store.getters["mentors/isMentor"];
     },
+    isLoggedIn() {
+      return this.$store.getters.isAuthenticated;
+    }
   },
   methods: {
     setFilters(updatedFilters) {
