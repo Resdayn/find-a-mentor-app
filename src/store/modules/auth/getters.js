@@ -4,5 +4,9 @@ export default {
   },
   token(state) {
     return state.token;
+  },
+  isAuthenticated(state) {
+    //returns true if there is a received token from FireBase
+    return !!state.token;
   }
 };
