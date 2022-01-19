@@ -108,6 +108,7 @@ export default {
     },
   },
   created() {
+    // Loads the mentors but doesn't force a full refresh unless enough time has passed according to the shouldUpdateMentors mutation
     this.loadMentors();
   },
 };
