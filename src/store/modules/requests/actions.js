@@ -24,7 +24,9 @@ export default {
   async fetchRequests(context) {
     // Make sure to fetch only the requests of the logged mentor.
     const mentorId = context.rootGetters.userId;
-    const response = await fetch(`${fireBaseToken.token}/requests/${mentorId}.json`);
+    const token = context.rootGetters.token;
+    
+    const response = await fetch(`${fireBaseToken.token}/requests/${mentorId}.json?auth=${token}`);
     const responseData = await response.json();
 
     if (!response.ok) {
