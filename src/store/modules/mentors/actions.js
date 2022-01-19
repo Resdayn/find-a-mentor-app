@@ -11,9 +11,11 @@ export default {
       description: data.desc,
       hourlyRate: data.rate,
     };
-    // Sends request to FireBase
+    // Sends request to FireBase with the token
+    const token = context.rootGetters.token;
+
     const response = await fetch(
-      `${fireBaseToken.token}/mentors/${userId}.json`,
+      `${fireBaseToken.token}/mentors/${userId}.json?auth=${token}`,
       {
         method: "PUT", // PUT overwrites if there is no entry, POST always create new entries
         body: JSON.stringify(mentor),
