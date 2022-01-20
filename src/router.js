@@ -1,13 +1,22 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import MentorDetails from "./components/pages/mentors/MentorDetails.vue";
-import MentorRegistration from "./components/pages/mentors/MentorRegistration.vue";
-import MentorsList from "./components/pages/mentors/MentorsList.vue";
-import ContactMentor from "./components/pages/requests/ContactMentor.vue";
-import RequestsReceived from "./components/pages/requests/RequestsReceived.vue";
-import UserAuth from "./components/pages/auth/UserAuth.vue"
-import NotFound from "./components/pages/NotFound.vue";
+// import MentorDetails from "./components/pages/mentors/MentorDetails.vue";
+// import MentorRegistration from "./components/pages/mentors/MentorRegistration.vue";
+// import MentorsList from "./components/pages/mentors/MentorsList.vue";
+// import ContactMentor from "./components/pages/requests/ContactMentor.vue";
+// import RequestsReceived from "./components/pages/requests/RequestsReceived.vue";
+// import UserAuth from "./components/pages/auth/UserAuth.vue";
+// import NotFound from "./components/pages/NotFound.vue";
 import store from "./store/index.js";
+
+// Dynamic Imports (Lazy Loading)
+const MentorDetails = () => import("./components/pages/mentors/MentorDetails.vue");
+const MentorRegistration = () => import("./components/pages/mentors/MentorRegistration.vue");
+const MentorsList = () => import("./components/pages/mentors/MentorsList.vue");
+const ContactMentor = () => import("./components/pages/requests/ContactMentor.vue");
+const RequestsReceived = () => import("./components/pages/requests/RequestsReceived.vue");
+const UserAuth = () => import("./components/pages/auth/UserAuth.vue");
+const NotFound = () => import("./components/pages/NotFound.vue");
 
 const router = createRouter({
   history: createWebHistory(),
