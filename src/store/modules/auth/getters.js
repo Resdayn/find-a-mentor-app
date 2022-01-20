@@ -8,5 +8,8 @@ export default {
   isAuthenticated(state) {
     //returns true if there is a received token from FireBase
     return !!state.token;
+  },
+  didAutoLogout(state){
+    return state.didAutoLogout;
   }
 };
