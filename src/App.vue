@@ -13,8 +13,22 @@ export default {
   components: {
     TheHeader,
   },
+  computed: {
+    didAutoLogout() {
+      return this.$store.getters.didAutoLogout;
+    }
+  },
   created() {
-    this.$store.dispatch('autoLogin');
+    this.$store.dispatch("autoLogin");
+  },
+  watch: {
+    didAutoLogout(currentValue, oldValue) {
+      // watches for changes in didAutoLogout computed property.
+      // If there is a change in the didAutoLog state in Vuex, it means the user was autologged out and it always redirects to the main screen
+      if (currentValue && currentValue !== oldValue) {
+        this.$router.replace("/mentors");
+      }
+    }
   }
 };
 </script>
