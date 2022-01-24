@@ -1,12 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router";
-
-// import MentorDetails from "./components/pages/mentors/MentorDetails.vue";
-// import MentorRegistration from "./components/pages/mentors/MentorRegistration.vue";
-// import MentorsList from "./components/pages/mentors/MentorsList.vue";
-// import ContactMentor from "./components/pages/requests/ContactMentor.vue";
-// import RequestsReceived from "./components/pages/requests/RequestsReceived.vue";
-// import UserAuth from "./components/pages/auth/UserAuth.vue";
-// import NotFound from "./components/pages/NotFound.vue";
 import store from "./store/index.js";
 
 // Dynamic Imports (Lazy Loading)
