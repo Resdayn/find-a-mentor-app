@@ -11,5 +11,8 @@ export default {
   },
   didAutoLogout(state){
     return state.didAutoLogout;
+  },
+  fullName(state) {
+    return state.fullName;
   }
 };
