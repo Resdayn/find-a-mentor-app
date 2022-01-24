@@ -7,7 +7,9 @@
                 <li v-if="isLoggedIn"><router-link to='/requests'>Requests</router-link></li>
                 <li v-else><router-link to='/auth'>Log In</router-link></li>
                 <li v-if="isLoggedIn"><base-button @click="logout">Log Out</base-button></li>
+                <li v-if="isLoggedIn"><h3>Logged in as {{userFullName}}</h3></li>
             </ul>
+            
         </nav>
     </header>
 </template>
@@ -19,6 +21,9 @@ export default {
   computed: {
     isLoggedIn() {
       return this.$store.getters.isAuthenticated;
+    },
+    userFullName() {
+      return this.$store.getters.fullName;
     }
   },
   methods: {
@@ -64,6 +69,9 @@ h1 a.router-link-active {
   border-color: transparent;
 }
 
+h3 {
+  color: white;
+}
 header nav {
   width: 90%;
   margin: auto;
