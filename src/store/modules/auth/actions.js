@@ -24,6 +24,7 @@ export default {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
     localStorage.removeItem("tokenExpiration");
+    localStorage.removeItem("fullName");
 
     // Clear the autologout timer
     clearTimeout(timer);
@@ -31,6 +32,7 @@ export default {
     context.commit("setUser", {
       userId: null,
       token: null,
+      fullName: ''
     });
   },
 
@@ -65,6 +67,11 @@ export default {
       throw error;
     }
 
+    // HTTP request to obtain the user's full name:
+    const secondResponse = await fetch(`${firebaseKey.token}/mentors/${responseData.localId}.json`);
+    const secondResponseData = await secondResponse.json();
+    const fullName = `${secondResponseData.firstName} ${secondResponseData.lastName}`;
+
     // Save data to local storage
     const tokenExpiresIn = +responseData.expiresIn * 1000; // changes the string to integer (the +) and converts it to milisecs
     // const tokenExpiresIn = 5000; // FOR TESTING
@@ -73,6 +80,7 @@ export default {
     localStorage.setItem("token", responseData.idToken);
     localStorage.setItem("userId", responseData.localId);
     localStorage.setItem("tokenExpiration", tokenExpirationDate);
+    localStorage.setItem("fullName", fullName);
 
     // Sets a timer to auto-logout the user
     timer = setTimeout(() => {
@@ -83,6 +91,7 @@ export default {
     context.commit("setUser", {
       token: responseData.idToken,
       userId: responseData.localId,
+      fullName: fullName
     });
   },
 
@@ -91,6 +100,7 @@ export default {
 
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("userId");
+    const fullName = localStorage.getItem("fullName");
     const tokenExpiration = localStorage.getItem("tokenExpiration"); // Will return a date in the future
 
     const expiresIn = +tokenExpiration - new Date().getTime(); // difference in milisecs between the expirate date and the current date.
@@ -112,6 +122,7 @@ export default {
       context.commit("setUser", {
         token: token,
         userId: userId,
+        fullName: fullName
       });
     }
   },
